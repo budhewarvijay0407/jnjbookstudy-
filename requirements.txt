@@ -10,7 +10,5 @@ PyPDF2
 chromadb
 tiktoken
 pandas
-GoogleNews
-speechrecognition
 scipy
-pinecone-client
+sqlite3==3.35.0
