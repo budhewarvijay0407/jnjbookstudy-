@@ -11,4 +11,5 @@ chromadb
 tiktoken
 pandas
 scipy
-sqlite==3.35.0
+pysqlite3-binary
+pycryptodome
