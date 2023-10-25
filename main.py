@@ -52,6 +52,7 @@ openai.api_key=openai_configuration['key']
 embeddings = OpenAIEmbeddings()
 
 with st.sidebar:
+    st.sidebar.image('j&jlogo.jpeg')
     lotti_sidebar=load_lottieurl('https://lottie.host/75d77fdd-d088-422c-a94f-505ee47fd5ee/6KEpCAcDQD.json')
     st_lottie(lotti_sidebar,reverse=True,height=300,  width=300,speed=1,  loop=True,quality='high')
     st.title("BookStudyPrep")
