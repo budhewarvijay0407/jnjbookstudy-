@@ -11,4 +11,4 @@ chromadb
 tiktoken
 pandas
 scipy
-sqlite3==3.35.0
+sqlite==3.35.0
