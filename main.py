@@ -7,7 +7,6 @@ import os
 from langchain.vectorstores import Chroma
 from langchain.embeddings.openai import OpenAIEmbeddings
 from streamlit_lottie import st_lottie
-import cfa_bot_library_openai_prod_ccinsights
 import json
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import requests
