@@ -90,6 +90,8 @@ with st.container():
                 print('User input is :',user_input_qa)
                 if 'okay' in user_input_qa.lower():
                     response_qa = {'query':'','result':'Can i help you with anything else?'}
+                if 'thank' in user_input_qa.lower():
+                    response_qa = {'query':'','result':'You are welcome ,Can i help you with anything else?'}
                 else:
                     response_qa = qa(user_input_qa)
                 print('The response is ',response_qa)
@@ -101,8 +103,11 @@ with st.container():
                     message(st.session_state['past_qa'][i], is_user=True, key=str(i) + '__user')
                     message(st.session_state['generated_qa'][i], key=str(i)+'g')
                 with reference_document:
-                    if response_qa != None:    
-                        st.write('The reference for the lastest question asked is:',response_qa['source_documents'][1])
+                    if response_qa != None:
+                        try:
+                            st.write('The reference for the lastest question asked is:',response_qa['source_documents'][1])
+                        except:
+                            st.write('Empty reference')
                             
     st.write("*The Chat interface and reference corpus interface would appear once you upload the file*")
     
