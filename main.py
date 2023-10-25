@@ -54,7 +54,7 @@ embeddings = OpenAIEmbeddings()
 with st.sidebar:
     lotti_sidebar=load_lottieurl('https://lottie.host/75d77fdd-d088-422c-a94f-505ee47fd5ee/6KEpCAcDQD.json')
     st_lottie(lotti_sidebar,reverse=True,height=300,  width=300,speed=1,  loop=True,quality='high')
-    st.title("Q&A Assistance over PDF documents ")
+    st.title("BookStudyPrep")
     
     # st.markdown('''This application showcases the capabilities of AI using OpenAI's LLMs
     # ''')
