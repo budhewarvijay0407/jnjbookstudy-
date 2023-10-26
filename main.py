@@ -2,6 +2,9 @@
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+#Importing all the necessary language 
+
 import streamlit as st
 from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
@@ -18,7 +21,7 @@ from langchain.chains import RetrievalQA
 import PyPDF2
 import datetime as dt
 global qa
-
+import ast
 
 qa=None
 start_text=''
@@ -55,7 +58,7 @@ with st.sidebar:
     st.sidebar.image('j&jlogo.jpeg')
     lotti_sidebar=load_lottieurl('https://lottie.host/75d77fdd-d088-422c-a94f-505ee47fd5ee/6KEpCAcDQD.json')
     st_lottie(lotti_sidebar,reverse=True,height=300,  width=300,speed=1,  loop=True,quality='high')
-    st.title("BookStudyPrep")
+    st.title("Q&A Assistance over PDF documents ")
     
     # st.markdown('''This application showcases the capabilities of AI using OpenAI's LLMs
     # ''')
@@ -143,20 +146,22 @@ with st.container():
                     len_read=20
                 else:
                     len_read=len(pdf_reader.pages)
-                
                 for page_num in range(len(pdf_reader.pages)):
+                    print('Page number',page_num)
                     page = pdf_reader.pages[page_num]
                     text = page.extract_text()
                     total_data.append(text)
                 if st.session_state['start_text']!=total_data:
                     st.session_state['start_text']=total_data
-                    total_data = ''.join(total_data)
+                    total_data = '/n/n'.join(total_data)
+                    print(total_data)
                     chroma_db=get_embeddings([total_data])
                     st.session_state['chroma_db']=chroma_db
-                 
+                    print('Embedding Done!!!')
                 vectordb_openai = Chroma(persist_directory='local_db', embedding_function=OpenAIEmbeddings())
-                retriever_openai = vectordb_openai.as_retriever(search_kwargs={"k": 2})
-                qa = RetrievalQA.from_chain_type(llm=OpenAI(model_name="text-davinci-003",max_tokens=200), chain_type="stuff", retriever=retriever_openai,return_source_documents=True)
+                retriever_openai = vectordb_openai.as_retriever(search_kwargs={"k": 5})
+                
+                qa = RetrievalQA.from_chain_type(llm=OpenAI(model_name="text-davinci-003",max_tokens=100), chain_type="stuff", retriever=retriever_openai,return_source_documents=True)
             #st.success('')
         input_container_qa = st.container()
         reference_document = st.container()
