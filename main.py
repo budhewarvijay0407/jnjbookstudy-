@@ -24,7 +24,7 @@ qa=None
 start_text=''
 
 def get_embeddings(total_data):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=180)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=600, chunk_overlap=100)
     texts = text_splitter.create_documents(total_data)
     db = Chroma.from_documents(texts, embeddings,persist_directory='local_db')
     db.persist()
