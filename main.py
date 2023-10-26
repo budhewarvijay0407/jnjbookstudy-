@@ -93,19 +93,33 @@ with st.container():
                 if 'thank' in user_input_qa.lower():
                     response_qa = {'query':'','result':'You are welcome ,Can i help you with anything else?'}
                 else:
-                    response_qa = qa(user_input_qa)
-                print('The response is ',response_qa)
+                    #print('The retrieval documnets are: ',retriever_openai.get_relevant_documents(user_input_qa))
+                    refer_docs=retriever_openai.get_relevant_documents(user_input_qa)
+                    print('ref docs========>',refer_docs)
+                    total_content = []
+                    for i in refer_docs:
+                        total_content.append(i.page_content)
+                    total_content=list(set(total_content))
+                    print('total_contents',total_content)
+                    final_doc_content=''.join(total_content)
+                    print('Final corpus is :', final_doc_content)
+                    completion = openai.ChatCompletion.create(
+                    model="gpt-4",
+                    messages=[{"role": "assistant", "content": "You are going to answer to the user's query based on the excerpt provided, you would try to give the answer as much as accurate from the given text"},{"role": "user", "content": f"please answer the query based on given corpus /n{final_doc_content}/n the question is : {user_input_qa}"}])
+                    response_qa= completion.choices[0].message['content']
+                    #response_qa=ast.literal_eval(completion.choices[0].message['content'])
                 st.session_state.past_qa.append(user_input_qa)
-                st.session_state.generated_qa.append(response_qa['result'])
+                st.session_state.generated_qa.append(response_qa)
+                #st.session_state.generated_qa.append(response_qa['result'])
                 
             if st.session_state['generated_qa']:
                 for i in range(len(st.session_state['generated_qa'])):
                     message(st.session_state['past_qa'][i], is_user=True, key=str(i) + '__user')
                     message(st.session_state['generated_qa'][i], key=str(i)+'g')
                 with reference_document:
-                    if response_qa != None:
+                    if response_qa != None:    
                         try:
-                            st.write('The reference for the lastest question asked is:',response_qa['source_documents'][1])
+                            st.write('The reference for the lastest question asked is:',total_content)#response_qa['source_documents'][1])
                         except:
                             st.write('Empty reference')
                             
