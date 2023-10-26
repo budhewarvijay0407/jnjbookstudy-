@@ -137,7 +137,7 @@ with st.container():
                 if st.session_state['start_text']!=total_data:
                     st.session_state['start_text']=total_data
                     total_data = ''.join(total_data)
-                    chroma_db=get_embeddings(total_data)
+                    chroma_db=get_embeddings([total_data])
                     st.session_state['chroma_db']=chroma_db
                  
                 vectordb_openai = Chroma(persist_directory='local_db', embedding_function=OpenAIEmbeddings())
