@@ -136,6 +136,7 @@ with st.container():
                     total_data.append(text)
                 if st.session_state['start_text']!=total_data:
                     st.session_state['start_text']=total_data
+                    total_data = ''.join(total_data)
                     chroma_db=get_embeddings(total_data)
                     st.session_state['chroma_db']=chroma_db
                  
